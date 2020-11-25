@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to photography application." });
 });
 require("./app/routes/photos.routes")(app);
+require("./app/routes/packages.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

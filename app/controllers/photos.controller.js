@@ -1,7 +1,7 @@
 const db = require("../models");
 const Photos = db.photos;
 const uploadFile = require("../middleware/upload");
-
+const Sequelize = require("sequelize");
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.title) {
@@ -34,7 +34,7 @@ exports.create = (req, res) => {
 exports.addNew = async (req, res) => {
   await uploadFile(req, res);
 
-  if (req.file == undefined) {
+  if (req.body.category == undefined) {
     return res.status(400).send({ message: "Please upload a file!" });
   }
   const photos = {
@@ -84,6 +84,22 @@ exports.findAllByCategory = (req, res) => {
       });
     });
 };
+exports.findAllCategory = (req, res) => {
+  Photos.findAll({
+    attributes: [
+      [Sequelize.fn("DISTINCT", Sequelize.col("category")), "category"],
+    ],
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving exam_date.",
+      });
+    });
+};
 // Find a single Photos with an id
 exports.findOne = (req, res) => {};
 
@@ -93,7 +109,6 @@ exports.update = (req, res) => {};
 // Delete a Photos with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-
   Photos.destroy({
     where: { id: id },
   })
