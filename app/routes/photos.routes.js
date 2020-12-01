@@ -6,16 +6,20 @@ module.exports = (app) => {
   // Create a new Tutorial
   router.post("/", photos.addNew);
 
+  router.post("/addNewCategory", photos.addNewCategory);
+
   // Retrieve all photos
   router.get("/getAll/getAll", photos.findAll);
 
   router.get("/Category/getAll", photos.findAllCategory);
+  
+  router.get("/Album/getAll/:cat", photos.findAllAlbum);
 
   // Retrieve all published photos
   router.get("/getAll/:cat", photos.findAllByCategory);
 
   // Retrieve a single Tutorial with id
-  router.get("/:id", photos.findOne);
+  router.get("/:id", photos.findOne)
 
   // Update a Tutorial with id
   router.put("/:id", photos.update);

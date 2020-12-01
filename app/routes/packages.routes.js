@@ -5,6 +5,7 @@ module.exports = (app) => {
 
   // Create a new Tutorial
   router.post("/", packages.createPackage);
+
   router.post("/subPackage", packages.createSubPackage);
 
   // Retrieve all packages
@@ -22,7 +23,7 @@ module.exports = (app) => {
   // router.put("/:id", packages.update);
 
   // // Delete a Tutorial with id
-  // router.delete("/:id", packages.delete);
+  router.delete("/:id", packages.delete);
 
   // // Delete all packages
   // router.delete("/", packages.deleteAll);

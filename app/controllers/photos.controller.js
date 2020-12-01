@@ -1,6 +1,6 @@
 const db = require("../models");
 const Photos = db.photos;
-const uploadFile = require("../middleware/upload");
+const upload = require("../middleware/uploadArray");
 const Sequelize = require("sequelize");
 exports.create = (req, res) => {
   // Validate request
@@ -32,15 +32,83 @@ exports.create = (req, res) => {
 };
 
 exports.addNew = async (req, res) => {
-  await uploadFile(req, res);
+  try {
+    await upload(req, res);
 
+    if (req.body.category == undefined) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+    var a = [];
+    for (var i = 0, j = req.files.imageArray.length; i < j; i++) {
+      a.push(req.files.imageArray[i].filename);
+    }
+    const photos = {
+      category: req.body.category,
+      image: JSON.stringify(a),
+      title: req.body.title,
+      album: req.body.album,
+      mainImage: req.files.main[0].filename,
+    };
+
+    // Save Tutorial in the database
+    Photos.create(photos)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial.",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      message: `Could not upload the file: ${err}`,
+    });
+  }
+};
+
+exports.addNewDS = async (req, res) => {
+  try {
+    await upload(req, res);
+    // await uploadFile(req, res);
+
+    console.log(req.files);
+
+    var a = [];
+    for (var i = 0, j = req.files.imageArray.length; i < j; i++) {
+      a.push(req.files.imageArray[i].filename);
+    }
+    const photos = {
+      category: req.body.category,
+      image: JSON.stringify(a),
+      title: req.body.title,
+      album: req.body.album,
+      mainImage: files.main[0].filename,
+    };
+    console.log("asdad", a);
+    Photos.create(photos)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Tutorial.",
+        });
+      });
+  } catch (err) {
+    res.status(500).send({
+      message: `Could not upload the file: ${err}`,
+    });
+  }
+};
+exports.addNewCategory = async (req, res) => {
   if (req.body.category == undefined) {
     return res.status(400).send({ message: "Please upload a file!" });
   }
   const photos = {
     category: req.body.category,
-    image: req.file.originalname,
-    title: req.body.title,
   };
 
   // Save Tutorial in the database
@@ -73,7 +141,7 @@ exports.findAll = (req, res) => {
 
 exports.findAllByCategory = (req, res) => {
   const cat = req.params.cat;
-  Photos.findAll({ where: { category: cat } })
+  Photos.findAll({ where: { album: cat } })
     .then((data) => {
       res.send(data);
     })
@@ -81,6 +149,29 @@ exports.findAllByCategory = (req, res) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving tutorials.",
+      });
+    });
+};
+exports.findAllAlbum = (req, res) => {
+  const cat = req.params.cat;
+
+  Photos.findAll({
+    where: { category: cat },
+    // attributes: [
+    //   [
+    //     Sequelize.fn("DISTINCT", Sequelize.col("album", "image")),
+    //     "album",
+    //     "image",
+    //   ],
+    // ],
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving exam_date.",
       });
     });
 };

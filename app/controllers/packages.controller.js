@@ -27,8 +27,7 @@ exports.createPackage = async (req, res) => {
     });
 };
 exports.createSubPackage = (req, res) => {
-
-   SubPackage.create({
+  SubPackage.create({
     name: req.body.name,
     description: req.body.description,
     price: req.body.price,
@@ -63,5 +62,27 @@ exports.findTutorialById = (req) => {
     })
     .catch((err) => {
       console.log(">> Error while finding tutorial: ", err);
+    });
+};
+exports.delete = (req, res) => {
+  const id = req.params.id;
+  Package.destroy({
+    where: { id: id },
+  })
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Tutorial was deleted successfully!",
+        });
+      } else {
+        res.send({
+          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Could not delete Tutorial with id=" + id,
+      });
     });
 };

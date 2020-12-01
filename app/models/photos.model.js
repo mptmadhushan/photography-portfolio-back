@@ -9,6 +9,12 @@ module.exports = (sequelize, Sequelize) => {
     title: {
       type: Sequelize.STRING,
     },
+    album:{
+      type: Sequelize.STRING,
+    },
+    mainImage:{
+      type: Sequelize.STRING,
+    }
   });
 
   return Photos;
