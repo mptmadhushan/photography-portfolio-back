@@ -23,6 +23,22 @@ db.photos = require("./photos.model")(sequelize, Sequelize);
 db.packages = require("./packages.model")(sequelize, Sequelize);
 db.subPackages = require("./subPackages.model")(sequelize, Sequelize);
 
+db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.role = require("../models/role.model.js")(sequelize, Sequelize);
+
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId",
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId",
+});
+
+db.ROLES = ["user", "admin", "moderator"];
+
 db.packages.hasMany(db.subPackages, { as: "sub_packages" });
 db.subPackages.belongsTo(db.packages, {
   foreignKey: "packageId",

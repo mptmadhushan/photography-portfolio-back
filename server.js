@@ -7,10 +7,28 @@ const app = express();
 global.__basedir = __dirname;
 
 const db = require("./app/models");
+const Role = db.role;
 app.use(express.static(path.join(__dirname, "/uploads")));
 db.sequelize.sync({ force: false }).then(() => {
   console.log("Drop and re-sync db.");
+  // initial();
 });
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user",
+  });
+
+  Role.create({
+    id: 2,
+    name: "moderator",
+  });
+
+  Role.create({
+    id: 3,
+    name: "admin",
+  });
+}
 var corsOptions = {
   // origin: "http://localhost:8081",
 };
@@ -29,6 +47,7 @@ app.get("/", (req, res) => {
 });
 require("./app/routes/photos.routes")(app);
 require("./app/routes/packages.routes")(app);
+require("./app/routes/auth.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
