@@ -9,9 +9,9 @@ global.__basedir = __dirname;
 const db = require("./app/models");
 const Role = db.role;
 app.use(express.static(path.join(__dirname, "/uploads")));
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
-  // initial();
+  initial();
 });
 function initial() {
   Role.create({
@@ -30,7 +30,7 @@ function initial() {
   });
 }
 var corsOptions = {
-  origin: "https://photography-portfolio-front.herokuapp.com",
+  // origin: "https://photography-portfolio-front.herokuapp.com",
 };
 
 app.use(cors(corsOptions));
