@@ -10,10 +10,12 @@ module.exports = (app) => {
 
   // Retrieve all packages
   router.get("/getAll", packages.findAll);
+  router.get("/findAllPackageNames", packages.findAllPackageNames);
 
   // router.get("/Category/getAll", packages.findAllCategory);
 
   // Retrieve all published packages
+  
   // router.get("/getAll/:cat", packages.findAllByCategory);
 
   // // Retrieve a single Tutorial with id

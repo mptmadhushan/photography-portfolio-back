@@ -53,6 +53,16 @@ exports.findAll = (req, res) => {
     // return package;
   });
 };
+exports.findAllPackageNames = (req, res) => {
+  return Package.findAll({
+    attributes: ["title"],
+  }).then((package) => {
+    console.log(">> All tutorials", JSON.stringify(package, null, 2));
+    res.send(package);
+    // console.log(package);
+    // return package;
+  });
+};
 exports.findTutorialById = (req) => {
   return Package.findByPk((packageId = req.body.packageId), {
     include: ["sub_packages"],
