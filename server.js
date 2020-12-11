@@ -30,7 +30,7 @@ function initial() {
   });
 }
 var corsOptions = {
-  // origin: "http://localhost:8081",
+  origin: "https://photography-portfolio-front.herokuapp.com",
 };
 
 app.use(cors(corsOptions));
