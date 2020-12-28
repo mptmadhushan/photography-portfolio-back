@@ -26,7 +26,7 @@ var uploadFiles = multer({ storage: storage }).fields([
   },
   {
     name: "imageArray",
-    maxCount: 10,
+    maxCount: 50,
   },
   {
     name: "Nutritional",
