@@ -41,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to photography application." });
+  res.json({ message: "Welcome to photography application. **" });
 });
 require("./app/routes/photos.routes")(app);
 require("./app/routes/packages.routes")(app);
