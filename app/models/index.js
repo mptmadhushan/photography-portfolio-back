@@ -20,6 +20,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.photos = require("./photos.model")(sequelize, Sequelize);
+db.hero = require("./hero.model")(sequelize, Sequelize);
 db.packages = require("./packages.model")(sequelize, Sequelize);
 db.subPackages = require("./subPackages.model")(sequelize, Sequelize);
 
