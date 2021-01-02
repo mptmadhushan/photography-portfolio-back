@@ -138,7 +138,22 @@ exports.findAll = (req, res) => {
       });
     });
 };
-
+exports.findAllRandom = (req, res) => {
+  Photos.findAll({
+    order: Sequelize.literal("rand()"),
+    limit: 9,
+    offset: 2,
+  })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials.",
+      });
+    });
+};
 exports.findAllByCategory = (req, res) => {
   const cat = req.params.cat;
   Photos.findAll({ where: { album: cat } })
