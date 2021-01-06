@@ -12,6 +12,7 @@ exports.createPackage = async (req, res) => {
   const package = {
     image: req.file.originalname,
     title: req.body.title,
+    description: req.body.description,
   };
 
   // Save Tutorial in the database

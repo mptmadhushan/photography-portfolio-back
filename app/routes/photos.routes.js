@@ -30,7 +30,7 @@ module.exports = (app) => {
   router.delete("/:id", photos.delete);
 
   // Delete all photos
-  router.delete("/", photos.deleteAll);
+
 
   app.use("/api/photos", router);
 };
