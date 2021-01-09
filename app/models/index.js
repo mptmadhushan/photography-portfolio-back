@@ -23,6 +23,8 @@ db.photos = require("./photos.model")(sequelize, Sequelize);
 db.hero = require("./hero.model")(sequelize, Sequelize);
 db.packages = require("./packages.model")(sequelize, Sequelize);
 db.subPackages = require("./subPackages.model")(sequelize, Sequelize);
+db.products = require("./products.model")(sequelize, Sequelize);
+db.product_images = require("./productImages.model")(sequelize, Sequelize);
 
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
@@ -44,5 +46,10 @@ db.packages.hasMany(db.subPackages, { as: "sub_packages" });
 db.subPackages.belongsTo(db.packages, {
   foreignKey: "packageId",
   as: "package",
+});
+db.products.hasMany(db.product_images, { as: "product_images" });
+db.product_images.belongsTo(db.products, {
+  foreignKey: "productId",
+  as: "product",
 });
 module.exports = db;
